@@ -44,7 +44,18 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Inserir dados', style: TextStyle(fontSize: 20),),
               onPressed: () {_inserir();},
             ),
-            
+            RaisedButton(
+              child: Text('Retorna Dados', style: TextStyle(fontSize: 20),),
+              onPressed: () {_consultar();},
+            ),
+            RaisedButton(
+              child: Text('Remover Ultimo', style: TextStyle(fontSize: 20),),
+              onPressed: () {_removerUltimo();},
+            ),
+            RaisedButton(
+              child: Text('Remover Todos', style: TextStyle(fontSize: 20),),
+              onPressed: () {_removerTodos();},
+            ),
           ],
         ),
       ),
@@ -60,4 +71,26 @@ class _MyHomePageState extends State<MyHomePage> {
     final id = await dbHelper.insert(row);
     print('linha inserida id: $id');
   }
+
+  void _consultar() async {
+    final linhas = await dbHelper.getAll();
+    print('==============Todas Pessoas================');
+    linhas.forEach( (linha) => print(linha));
+  }
+
+  void _removerTodos() async {
+    print('==============Remover Todos================');
+    await dbHelper.removerTodos();
+  }
+
+  void _removerUltimo() async {
+    print('==============Remover Ultimo================');
+    final pessoa = await dbHelper.getLast();
+
+    var id = pessoa['ID'];
+    print("Id a remover alterado");
+    print(id);
+    await dbHelper.remover(id);
+  }
+
 }

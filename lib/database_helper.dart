@@ -20,7 +20,7 @@ class DatabaseHelper {
     if (_database != null) return _database;
 
     _database = await initDatabase();
-    return _database;
+    return _database;//Retorna a Database instanciada
   }
 
   initDatabase() async {
@@ -41,7 +41,28 @@ class DatabaseHelper {
   Future<int> insert(Map<String, dynamic> row) async {
     Database db = await instance.database;
     return await db.insert("PESSOA", row);
-  } 
+  }
 
+  Future<List<Map<String, dynamic>>> getAll() async {
+    Database db = await instance.database;
+    return await db.query("PESSOA");
+  }
+
+  Future<Map<String, dynamic>> getLast() async {
+    Database db = await instance.database;
+    var pessoas = await db.query("PESSOA", limit: 1, orderBy: "ID DESC");
+    return pessoas.first;
+  }
+
+  Future<int> removerTodos() async {
+    Database db = await instance.database;
+    return await db.delete("PESSOA");
+  }
+
+  Future<int> remover(int id) async {
+    Database db = await instance.database;
+    return await db.delete("PESSOA", where: "ID = ?", 
+    whereArgs: [id]);
+  }
 
 }
