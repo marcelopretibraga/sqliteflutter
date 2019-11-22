@@ -56,6 +56,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Remover Todos', style: TextStyle(fontSize: 20),),
               onPressed: () {_removerTodos();},
             ),
+            RaisedButton(
+              child: Text('Alterar Primeiro', style: TextStyle(fontSize: 20),),
+              onPressed: () {_atualizar();},
+            ),
           ],
         ),
       ),
@@ -91,6 +95,17 @@ class _MyHomePageState extends State<MyHomePage> {
     print("Id a remover alterado");
     print(id);
     await dbHelper.remover(id);
+  }
+
+  void _atualizar() async {
+    // linha para atualizar
+    Map<String, dynamic> row = {
+      'ID': 1,
+      'NOME' : 'Marcelo ALTERADO',
+      'IDADE' : 54
+    };
+    final linhasAfetadas = await dbHelper.update(row, 1);
+    print('UPDATE $linhasAfetadas linha(s)');
   }
 
 }

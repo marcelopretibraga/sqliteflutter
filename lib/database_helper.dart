@@ -16,6 +16,7 @@ class DatabaseHelper {
 
   static Database _database;
 
+  //SINGLETON
   Future<Database> get database async {
     if (_database != null) return _database;
 
@@ -61,8 +62,12 @@ class DatabaseHelper {
 
   Future<int> remover(int id) async {
     Database db = await instance.database;
-    return await db.delete("PESSOA", where: "ID = ?", 
-    whereArgs: [id]);
+    return await db.delete("PESSOA", where: "ID = ?", whereArgs: [id]);
+  }
+
+  Future<int> update(Map<String, dynamic> row, int id) async {
+    Database db = await instance.database;
+    return await db.update("PESSOA", row, where: 'ID = ?', whereArgs: [id]);
   }
 
 }
